@@ -1,0 +1,55 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>娱乐新闻汇总</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<script type="text/javascript" src={% static "js/jquery-1.8.3.min.js" %}></script>
+	<script src={% static "js/echarts.js" %}></script>
+	<link rel="stylesheet" type="text/css" href={% static "css/beingtable.css" %}>
+</head>
+<body>
+	<div class="content-in">
+		<div class="left-nav">
+			<ul>
+				<li class="active"><a href="javascript:" >娱乐</a></li>
+				
+			</ul>
+		</div>
+		<p class="sidehead">娱乐</p>
+		<div class="line-gray"></div>
+		<div class="line"></div>
+	</div>
+	<div class="content">
+		<div class="news-left">
+			<h4>娱乐新闻列表</h4>
+				<ul>
+					<li>标题&nbsp;&nbsp;&nbsp;日期&nbsp;&nbsp;&nbsp;&nbsp;情感标签</li>
+					{% for i in News_page %}
+
+  					<li><a href={{i.url}}>{{i.Title}}&nbsp;&nbsp;&nbsp;&nbsp;{{i.Date}}&nbsp;&nbsp;&nbsp;&nbsp;{{i.Sentiment}}</li>
+  					{%endfor%}
+  					
+				</ul>
+		</div>
+		<div class="news-right">
+			<p>放其他内容</p>
+		</div>
+		<div class="news-bottom">
+			<p>{% if previous  %}
+		<a href={{previous_url}}>上一页</a>
+		{%endif%}
+		<p>{{page}}</p>
+		{% if last %}
+		<a href={{last_url}}>下一页</a>
+		{%endif%}</p>
+	
+		</div>
+
+		
+		
+	</div>
+
+</body>
+</html>

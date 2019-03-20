@@ -1,0 +1,45 @@
+{%load static%}
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>娱乐</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<script type="text/javascript" src={% static "js/jquery-1.8.3.min.js" %}></script>
+	<script src={% static "js/echarts.js" %}></script>
+	<link rel="stylesheet" type="text/css" href={% static "css/beingtable.css" %}>
+</head>
+<body>
+	<div class="content-in">
+		<div class="left-nav">
+			<ul>
+				<li class="active"><a href="javascript:" >娱乐</a></li>
+				
+			</ul>
+		</div>
+		<p class="sidehead">娱乐</p>
+		<div class="line-gray"></div>
+		<div class="line"></div>
+	</div>
+	<div class="content">
+		<div class="news-left">
+			<h8>{{Title}}</h5>
+
+			<p><img src={{image_path}}/></p>
+			<p>{{Acontent|safe}}</p>
+
+		</div>
+		<div class="news-right">
+			
+		</div>
+		<!-- <div class="news-bottom"> -->
+			<!-- <p>放评论</p> -->
+		<!-- </div> -->
+
+		
+		
+	</div>
+
+</body>
+</html>

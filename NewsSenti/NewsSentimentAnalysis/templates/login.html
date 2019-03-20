@@ -1,0 +1,35 @@
+{%load static%}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录界面</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<script type="text/javascript" src="{% static 'js/jquery-1.8.3.min.js'%}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css'%}">
+</head>
+<body> 
+	<div class="login">
+		<img src="{% static 'images/3.jpg'%}"/ class="images">
+		<form class="login-in" action='/login_action/' method="post">
+			{% csrf_token %}
+			<p>用户登录</p>
+			<div class="user">
+				<input id="text"  type="text"  name="username" placeholder="请输入用户名..." >
+			</div>
+			<div class="password">
+				<input id="text"  type="password"  name="password" placeholder="请输入密码..." >
+			</div> 
+			<div class="radio">
+				<a href="javascript:" id="remenber">记住密码</a>
+				<a href="javascript:" id="forget">忘记密码？</a>
+			</div>
+			<font size="4">{{error}}</font<br>
+			<div class="submit">
+				<input id="submit"  type="submit"  value="登    录" >
+			</div>
+
+		</form>
+	</div>
+</body>
+</html>
