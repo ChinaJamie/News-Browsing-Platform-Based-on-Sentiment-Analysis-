@@ -1,13 +1,12 @@
-{%load static%}
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>首页</title>
+	<title>主页</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
-	<script type="text/javascript" src={% static "js/jquery-1.8.3.min.js"%}></script>
-	<script type="text/javascript" src={% static "js/jquery.SuperSlide.2.1.1.js"%}></script>
-	<link rel="stylesheet" type="text/css" href={% static "css/news.css"%}>
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.SuperSlide.2.1.1.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/news.css">
 </head>
 <body>
 	<div class="head">
@@ -15,33 +14,33 @@
                  <div class="nav">
                      <ul>
                      	<li>
-                             <a href="/index/" >主页</a>
+                             <a href="javascript:" >主页</a>
                                 </li>
                         <li>
-                             <a href="/entertainment_list?page=1" >娱乐</a>
+                             <a href="javascript:" >娱乐</a>
                                 </li>
                         <li>
-                             <a href="/sports_list?page=1">运动</a>
+                             <a href="javascript:">运动</a>
                                 </li>
                         <li>
-                             <a href="/finance/">财经</a>
+                             <a href="javascript:">财经</a>
                                 </li>
                         <li>
-                             <a href="/technology/">科技</a>
+                             <a href="javascript:">科技</a>
                                 </li>
                         <li>
-                            <a href="/car/">汽车</a>
+                            <a href="javascript:">汽车</a>
                                </li>
                         <li>
-                            <a href="/house/">房产</a>
+                            <a href="javascript:">房产</a>
                                </li>
                         <li>
-                            <a href="/report/">生成报告</a>
+                            <a href="javascript:">生成报告</a>
                                </li>
                      </ul>
                   </div>
                   <input type="text" name="name" class="textarea"  placeholder="请输入搜索内容..."   />  
-                      <img src={% static "images/2.png"%} class="ripo1" />
+                      <img src="images/2.png" class="ripo1" />
                             </div>
             </div>
       </div>
@@ -53,116 +52,122 @@
         		<ul style="list-style-type: none;">
           			<li >
           				<a href="http://www.SuperSlide2.com" target="_blank">
-          					<img src={% static "images/timg2.jpg"%} />
+          					<img src="images/timg2.jpg" />
           				</a>
           			</li>
           			<li>
           				<a href="http://www.SuperSlide2.com" target="_blank">
-          					<img src={% static "images/timg4.jpg"%} />
+          					<img src="images/timg4.jpg" />
           				</a>
           			</li>
         		</ul>
       		</div>
       </div>
-      <div class="nbox">
-                    <p class="text4"><b>NEWS</b></p>
-                    <p class="text5">最新消息</p>
-                    <p class="text6">中心公告</p>
-                    <p class="text7">中心动态</p>
-                    <div class="bot">
-                        <ul>
-                          {% for i in News_Home_1 %}
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
 
-
-                                
-                                    <a href={{ i.url}}>{{i.Title}}&emsp;{{i.Sentiment}} </a>
-                                
-                                    </li>
-
-                         <!----   <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                   <a href="javascript:">公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容</a> 
-                                    </li>
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                    <a href="javascript:">公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容</a>
-                                    </li>
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                    <a href="javascript:">公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容</a>
-                                    </li> ---->
-                          {% endfor %}
-                        </ul>
-
-                    </div>
-                    <div class="pat">
-                        <ul>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                        </ul>
-                    </div>
-                     <div class="bot1">
-                        <ul>
-                             {% for i in News_Home_2 %}
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                    <a href={{ i.url}}>{{i.Title}}&emsp;{{i.Sentiment}}  </a>
-                                    </li>
-                             {% endfor %}
-                          </ul>
-                      </div>
-                    <div class="pat1">
-                        <ul>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                                 <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                        </ul>
-                        <!--
-                        <a href="javascript:"class="wor7" >更多》</a>
-                        <a href="javascript:"class="wor8" >更多》</a>
-                      -->
-                        <div class="q"></div> 
-                    </div>    
-            </div>
-             
-<script type="text/javascript">
+      <div class="list-content">
+      		<p class="text4" style="margin-left: 30px;"><b>NEWS</b></p>
+            <p class="text5" style="font-size: 30px;float: right;">最新消息</p>
+      		<ul>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list1">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list1">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list1">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list1">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list1">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list1">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list1">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      			<li>
+      				<div>
+      					<div class="time">
+      						<p class="date">11-22</p>
+      						<p class="year">2017</p>
+      					</div>
+      					<div class="list" style="border: none;">
+      						<p class="list-head">在不久的将来IC卡将取代磁条卡<span >情感极性：正面</span></p>
+      						<p class="list-cotent">社会学家雷恩·奥尔登博格看来，那些家庭和工作以外的地方属于“第三个地方”，那是一个人们能和同样社会团体的人进行交流的地方。</p>
+      					</div>
+      				</div>
+      			</li>
+      		</ul>
+      </div>
+      <div class="bottom"></div>
+      <script type="text/javascript">
 	jQuery(".slideBox").slide({mainCell:".bd ul",autoPlay:true});
 </script>
 </body>

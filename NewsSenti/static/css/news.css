@@ -35,7 +35,7 @@ select {
     z-index: 1;
     margin: 0px;
     padding:0px;
-    background:rgba(240,240,239,0.4);
+    background:rgba(240,240,239,0.8);
 }
 .head-box{
     width: 1026px;
@@ -158,8 +158,73 @@ select {
                 height:616px; 
                 display:block;
             }
+.list-content{
+  width: 1000px;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 15px;
+}
+.list-content li{
+  height: 100px;
+  margin-top: 20px;
+  background: #fff;
 
-        
+  /*border: 1px solid #000;*/
+}
+ .time{
+  width: 150px;
+  height: 100px;
+  float: left;
+  /*background: red;*/
+ }
+ .list{
+  width:835px;
+  height: 100px;
+  float: right;
+  /*border-bottom: 1px solid #ccc;*/
+  /*background: blue;*/
+ }
+ .list1{
+  width:835px;
+  height: 100px;
+  float: right;
+  border-bottom: 1px solid #ccc;
+ }
+ .date{
+    font-size: 35px;
+    text-align: center;
+    color: #ccc;
+    vertical-align: middle;
+    line-height: 60px;
+ } 
+ .year{
+    font-size: 20px;
+    text-align: right;
+    color: #ccc;
+ }
+ .list-head{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 15px;
+ } 
+ .list-head span{
+    float: right;
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 5px;
+    color: orange;
+ }
+ .list-cotent{
+  color: gray;
+  padding-top: 5px;
+ } 
+ .list-cotent span{
+    color: red;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+
+ }    
 .nbox{
     width: 1056px;
     margin-left: -10px;
@@ -283,7 +348,7 @@ select {
 
 .pat1{
     margin-top: -245px;
-    margin-left: 850px;
+    margin-left: 870px;
     padding: 25px;}
 
    .pat1 ul{
@@ -299,5 +364,10 @@ select {
             text-decoration: none;
             color: #706c62;
            } 
-        
+ .bottom{
+  width: 100%;
+  height:50px;
+  background: #000;
+  margin-top: 10px; 
+ }       
     

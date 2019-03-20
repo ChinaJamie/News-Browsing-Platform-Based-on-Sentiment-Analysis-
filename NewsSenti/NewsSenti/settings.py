@@ -84,8 +84,8 @@ DATABASES = {
         'HOST':'localhost',
         'PORT':'3306',
         'USER':'root',
-        'PASSWORD':'aptx4869',
-        'NAME': 'newssenti'
+        'PASSWORD':'123456',
+        'NAME': 'newssenti2'
     }
 }
 
