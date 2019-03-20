@@ -145,7 +145,7 @@ def sentiment_score(senti_score_list):
 
 def Senti_Sentence(word):
     if word == '':
-        return 0,0,NEU
+        return 0,0,'NEU'
     else:
         result = sentiment_score(sentiment_score_list(str(word)))  # 情感分析
         pos_score = result[0][0]
@@ -177,16 +177,21 @@ def Senti_Text(text):
                 sen_num+=1
             else:
                 pass
-        pos_score = pos_sum/sen_num
-        neg_score = neg_sum/sen_num
-        if pos_score == neg_score:
-            SentiResult='NEU'
-        elif pos_score > neg_score:
-            SentiResult='POS'
-        else:
-            SentiResult='NEG'
-        #print(pos_score,neg_score,SentiResult)
-        return pos_score,neg_score,SentiResult
+        try:
+            pos_score = pos_sum/sen_num
+            neg_score = neg_sum/sen_num
+            if pos_score == neg_score:
+                SentiResult='NEU'
+            elif pos_score > neg_score:
+                SentiResult='POS'
+            else:
+                SentiResult='NEG'
+            #print(pos_score,neg_score,SentiResult)
+            return pos_score,neg_score,SentiResult
+        except Exception as e :  #
+            print(e)
+            return 0,0,'NEU'
+
 
 
 # if  __name__=="__main__":

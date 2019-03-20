@@ -62,7 +62,7 @@ class HomeAnalysis_News(models.Model):
 
 class HomeComment(models.Model):
 	News_id=models.ForeignKey(HomeNews,on_delete=models.CASCADE)	#对应新闻的id
-	Comment_id= models.IntegerField(primary_key=True)    #评论id
+	Comment_id= models.AutoField(primary_key=True)    #评论id
 	Reply_Comment_id= models.IntegerField(null=True) #是否是回复别人的评论，如果不是则为空，是则填对应的评论id
 	NikeName=models.CharField(max_length=100)  #昵称
 	Comment=models.TextField()  #评论
@@ -107,7 +107,7 @@ class EntertainmentAnalysis_News(models.Model):
 
 class EntertainmentComment(models.Model):
 	News_id=models.ForeignKey(EntertainmentNews,on_delete=models.CASCADE)	#对应新闻的id
-	Comment_id= models.IntegerField(primary_key=True)    #评论id
+	Comment_id= models.AutoField(primary_key=True)    #评论id
 	Reply_Comment_id= models.IntegerField(null=True) #是否是回复别人的评论，如果不是则为空，是则填对应的评论id
 	NikeName=models.CharField(max_length=100)  #昵称
 	Comment=models.TextField()  #评论
@@ -118,7 +118,7 @@ class EntertainmentAnalysis_Comment(models.Model):
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
-		max_length=2,
+		max_length=50,
 		choices=Sentiment_CHOICES,
 		default = Neutral
 	)	#情感极性（三个选一个的字段）
@@ -151,7 +151,7 @@ class SportsAnalysis_News(models.Model):
 
 class SportsComment(models.Model):
 	News_id=models.ForeignKey(SportsNews,on_delete=models.CASCADE)	#对应新闻的id
-	Comment_id= models.IntegerField(primary_key=True)    #评论id
+	Comment_id= models.AutoField(primary_key=True)    #评论id
 	Reply_Comment_id= models.IntegerField(null=True) #是否是回复别人的评论，如果不是则为空，是则填对应的评论id
 	NikeName=models.CharField(max_length=100)  #昵称
 	Comment=models.TextField()  #评论
@@ -162,7 +162,7 @@ class SportsAnalysis_Comment(models.Model):
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
-		max_length=2,
+		max_length=50,
 		choices=Sentiment_CHOICES,
 		default = Neutral
 	)	#情感极性（三个选一个的字段）
@@ -197,7 +197,7 @@ class FinanceAnalysis_News(models.Model):
 
 class FinanceComment(models.Model):
 	News_id=models.ForeignKey(FinanceNews,on_delete=models.CASCADE)	#对应新闻的id
-	Comment_id= models.IntegerField(primary_key=True)    #评论id
+	Comment_id= models.AutoField(primary_key=True)    #评论id
 	Reply_Comment_id= models.IntegerField(null=True) #是否是回复别人的评论，如果不是则为空，是则填对应的评论id
 	NikeName=models.CharField(max_length=100)  #昵称
 	Comment=models.TextField()  #评论
@@ -208,7 +208,7 @@ class FinanceAnalysis_Comment(models.Model):
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
-		max_length=2,
+		max_length=50,
 		choices=Sentiment_CHOICES,
 		default = Neutral
 	)	#情感极性（三个选一个的字段）
@@ -242,7 +242,7 @@ class TechnologyAnalysis_News(models.Model):
 
 class TechnologyComment(models.Model):
 	News_id=models.ForeignKey(TechnologyNews,on_delete=models.CASCADE)	#对应新闻的id
-	Comment_id= models.IntegerField(primary_key=True)    #评论id
+	Comment_id= models.AutoField(primary_key=True)    #评论id
 	Reply_Comment_id= models.IntegerField(null=True) #是否是回复别人的评论，如果不是则为空，是则填对应的评论id
 	NikeName=models.CharField(max_length=100)  #昵称
 	Comment=models.TextField()  #评论
@@ -253,7 +253,7 @@ class TechnologyAnalysis_Comment(models.Model):
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
-		max_length=2,
+		max_length=50,
 		choices=Sentiment_CHOICES,
 		default = Neutral
 	)	#情感极性（三个选一个的字段）
@@ -287,7 +287,7 @@ class CarAnalysis_News(models.Model):
 
 class CarComment(models.Model):
 	News_id=models.ForeignKey(CarNews,on_delete=models.CASCADE)	#对应新闻的id
-	Comment_id= models.IntegerField(primary_key=True)    #评论id
+	Comment_id= models.AutoField(primary_key=True)    #评论id
 	Reply_Comment_id= models.IntegerField(null=True) #是否是回复别人的评论，如果不是则为空，是则填对应的评论id
 	NikeName=models.CharField(max_length=100)  #昵称
 	Comment=models.TextField()  #评论
@@ -298,7 +298,7 @@ class CarAnalysis_Comment(models.Model):
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
-		max_length=2,
+		max_length=50,
 		choices=Sentiment_CHOICES,
 		default = Neutral
 	)	#情感极性（三个选一个的字段）
@@ -330,7 +330,7 @@ class HouseAnalysis_News(models.Model):
 
 class HouseComment(models.Model):
 	News_id=models.ForeignKey(HouseNews,on_delete=models.CASCADE)	#对应新闻的id
-	Comment_id= models.IntegerField(primary_key=True)    #评论id
+	Comment_id= models.AutoField(primary_key=True)    #评论id
 	Reply_Comment_id= models.IntegerField(null=True) #是否是回复别人的评论，如果不是则为空，是则填对应的评论id
 	NikeName=models.CharField(max_length=100)  #昵称
 	Comment=models.TextField()  #评论
@@ -341,7 +341,7 @@ class HouseAnalysis_Comment(models.Model):
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
-		max_length=2,
+		max_length=50,
 		choices=Sentiment_CHOICES,
 		default = Neutral
 	)	#情感极性（三个选一个的字段）

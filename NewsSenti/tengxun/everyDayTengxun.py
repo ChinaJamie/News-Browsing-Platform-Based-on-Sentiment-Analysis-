@@ -4,9 +4,10 @@ from datetime import date, timedelta
 
 import datetime
 
-from DBcontrol import DB
-from pageContent import pageContent
-from pageUrls import DateUrl
+from tengxun.Comment import CommentCrawl
+from tengxun.DBcontrol import DB
+from tengxun.pageContent import pageContent
+from tengxun.pageUrls import DateUrl
 
 
 class EveryTengxun:
@@ -56,6 +57,9 @@ class EveryTengxun:
                 print("打开页面提取失败,可能是页面为404腾讯，删除这条url")   #为空的话，那么就删除这条把
                 dbhelper.deleteUrl(url)  #按url把这条记录删除掉咯
         dbhelper.classifyDB()  # 执行完了后就进行分类到django的数据库
+
+        comment = CommentCrawl()
+        comment.getCommentMain() #执行了爬取评论并且分类到django数据库
         print("共删除了  "+ str(delCount))
         print("原来有  "+str(len(todayNewUrl))+" 条")
         print("今天爬取完毕，蟹蟹使用")

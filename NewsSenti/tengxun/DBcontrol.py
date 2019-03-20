@@ -6,6 +6,7 @@ import random
 import traceback
 from datetime import date, timedelta
 
+import emoji
 import pymysql as pymysql
 import time
 from DBUtils.PooledDB import PooledDB
@@ -18,8 +19,8 @@ from DBUtils.PooledDB import PooledDB
 #todo 这儿有一个问题关于插入失败的，1.是插入的字符串中文gbk编码的，需要转换，2.就是可能会遇到emoji表情嘛？有可能的
 # todo 还有一个问题就是就是api （腾讯）字典key突然读取为空，没有这个key出现错误，什么鬼，健壮性要搞一下
 # todo 执行sql的时候就需要try catch 不然就崩溃了
-from config import mysqlInfo
-from senti_dict import Senti_Text
+from tengxun.config import mysqlInfo
+from tengxun.senti_dict import Senti_Text
 
 
 class DB:  #一个对象一个数据库连
@@ -663,9 +664,6 @@ class DB:  #一个对象一个数据库连
     def classifyDB(self): #todo 这个是根据传过来的数据分别进行分类，数据库的操作都写这儿来比较不容易乱。
         resultDic = self.__query__(  #todo 测试部分
             "select id,url,title,urlState,Hcontent,Mcontent,Tcontent,Acontent,newdate,fromWhere from tengxun where urlState='True' and hadmix='False'")
-
-
-
         print("开始分类整理")
         for rowDic in resultDic:
             # 插入分类新闻主表的sql
@@ -732,7 +730,12 @@ class DB:  #一个对象一个数据库连
             cur = coon.cursor(cursor=pymysql.cursors.DictCursor)
 
             try:                       #三个一起操作，很多麻烦事情的。
-                cur.execute(sql,(rowDic['url'],rowDic['title'],True,rowDic['Hcontent'],'未使用',rowDic['Tcontent'],rowDic['Acontent'],rowDic['newdate'],rowDic['fromWhere']))  #插入指定的表（分类）
+                cur.execute(sql,(rowDic['url'],rowDic['title'],True,rowDic['Hcontent'],'未提取',rowDic['Tcontent'],rowDic['Acontent'],rowDic['newdate'],rowDic['fromWhere']))  #插入指定的表（分类）
+
+                print("插入成功才用得上这个的把。")#无法提取到这个的。在写一次查询把。
+                # print(cur.lastrowid())      #上一个插入的id是，还真是有，那就直接返回过来就可以了
+                # print(type(cur.lastrowid()))   #上一个插入的id是，还真是有，那就直接返回过来就可以了
+
                 cur.execute(sql2,(float('%.3f' % pos_score.item()),float('%.3f' %neg_score.item()),SentiResult))  #插入评分   todo获得评分
                 cur.execute(updateSql,(rowDic['id']))  # 更新tengxun hadmix,这个是可以工作的啊
                 # 提交
@@ -742,10 +745,10 @@ class DB:  #一个对象一个数据库连
                 # 错误回滚
                 print("事务回滚，跳过插入")
                 # print(rowDic['id'])
-                print(sql)
+                print(sql%(rowDic['url'],rowDic['title'],True,rowDic['Hcontent'],'未使用',rowDic['Tcontent'],rowDic['Acontent'],rowDic['newdate'],rowDic['fromWhere']))
                 print(e)
                 coon.rollback()
-                # traceback.print_exc()
+                traceback.print_exc()
 
             finally:
                 # print("插入成功")
@@ -754,6 +757,136 @@ class DB:  #一个对象一个数据库连
                 coon.close()
         print("今天的量分完了")
 
+    def classifyDBComment(self,url,id,comment):  # 评论的数据库分类插入,传入新闻的url和id,commentDic <聚合的dic>
+        print("开始分类整理")  #
+        # print(comment['id'])
+        sql = ""  #评论正文插入   m  nbvcbv
+        sqlHead = "insert into newssentimentanalysis_"
+        sqlTail = "comment  (NikeName,Comment,Date,News_id_id) values (%s,%s,%s,%s)"
+
+        # 插入评论得分的sql
+        sql2 = ""
+        sql2Tail = "analysis_comment(Pos_Score,Neg_score,Sentiment,Comment_id_id) values (%s,%s,%s,last_insert_id())"  # 这个我也知道
+
+            # 这句就是更新新闻表中的数据,用id  newssentimentanalysis_carcomment
+        sqlNews = ""
+        sqlNewsHead = "update newssentimentanalysis_"
+        sqlNewsTail = "news SET Mcontent='已提取' where News_id=%s"  #id是数字
+
+        # 插入正文得
+
+        # updateSql = "update tengxun SET hadmix='True' where id='%s' "  #Mcontent，这个字段用来“未提取”-》“已提取
+
+        if url.find('auto') != -1:  # 找到这个就是汽车,中间是表名
+            sql = sqlHead + "car" + sqlTail
+            sql2 = sqlHead + "car" + sql2Tail
+            sqlNews =sqlNewsHead+ "car"+ sqlNewsTail
+            pass
+        if url.find('tech') != -1:  # 找到这个就是科技
+            sql = sqlHead + "technology" + sqlTail
+            sql2 = sqlHead + "technology" + sql2Tail
+            sqlNews =sqlNewsHead+ "technology"+ sqlNewsTail
+
+        if url.find('news') != -1:  # 找到这个就是默认新闻
+            sql = sqlHead + "home" + sqlTail
+            sql2 = sqlHead + "home" + sql2Tail
+            sqlNews =sqlNewsHead+ "home"+ sqlNewsTail
+
+
+        if url.find('ent') != -1:  # 找到这个就是娱乐
+            sql = sqlHead + "entertainment" + sqlTail
+            sql2 = sqlHead + "entertainment" + sql2Tail
+            sqlNews =sqlNewsHead+ "entertainment"+ sqlNewsTail
+
+        if url.find('house') != -1:  # 找到这个就是房产
+            sql = sqlHead + "house" + sqlTail
+            sql2 = sqlHead + "house" + sql2Tail
+            sqlNews =sqlNewsHead+ "house"+ sqlNewsTail
+
+        if url.find('finance') != -1:  # 找到这个就是经济
+            sql = sqlHead + "finance" + sqlTail
+            sql2 = sqlHead + "finance" + sql2Tail
+            sqlNews =sqlNewsHead+ "finance"+ sqlNewsTail
+
+        if url.find('sports') != -1:  # 找到这个就是运动
+            sql = sqlHead + "sports" + sqlTail
+            sql2 = sqlHead + "sports" + sql2Tail
+            sqlNews =sqlNewsHead+ "sports"+ sqlNewsTail
+
+        else:
+            pass  # 未能分类,也放到默认的那儿去吗。
+
+            # --------------------------------获取得分----------------------------------
+        # print(type(comment['id']))
+        print(comment['content'])
+        print(emoji.demojize(comment['userinfo']['nick']))
+
+        print(url,str(id))
+        pos_score, neg_score, SentiResult = Senti_Text(comment['content'])  # 这个是纯文本部分
+        if SentiResult.find("[")!=-1:
+            SentiResult = SentiResult.replact("[","")
+        if SentiResult.find("]")!=-1:
+            SentiResult = SentiResult.replact("]","")
+        print(SentiResult)
+        # 中立的情况好像是返回直接是0
+        print(pos_score)
+            # ---------------------------这边开始数据库插入相关操作-----------------------------
+        coon = DB.getmysqlconn()                                                          # 每次都默认获得一个新连接来进行相关的操作
+        cur = coon.cursor(cursor=pymysql.cursors.DictCursor)
+
+        try:
+            cur.execute(sql, (
+             comment['userinfo']['nick'], comment['content'],comment['time'], id)) # 插入指定的表（分类）
+            if pos_score == 0:  #等于0 就直接输入进去
+                pass
+            else :
+                pos_score = pos_score.item()
+                neg_score = neg_score.item()
+
+            cur.execute(sql2, (
+            float('%.3f' % pos_score), float('%.3f' % neg_score), SentiResult))  # 插入评分   todo获得评分
+            # print(sqlNews % int(id))
+            id = str(id)
+
+            cur.execute(sqlNews, (id))                                                   # 更新新闻的 Mcontent,这个是可以工作的啊
+
+            coon.commit()
+        except Exception as e:
+                # 错误回滚
+            print("事务回滚，跳过插入")
+                # print(rowDic['id'])
+            print(sql, (
+            comment['userinfo']['nick'], comment['content'],comment['time'], id))
+
+            print(id)
+            print(type(id))
+            print(sqlNews % (id))
+
+
+            print(e)
+            coon.rollback()
+            traceback.print_exc()
+        finally:
+            coon.commit()  # 提交这个事务
+            cur.close()
+            coon.close()
+            print("这条新闻的评论写入完毕")
+
+    def findCommentByUrl (self,url): #输入url然后返回新闻,可能会返回多个怎么办
+        resultIdDic = self.__query__("select id from tengxun where url='%s'"%(url))  #按字典返回这个结果的id
+        # print(resultIdDic[0])
+        if resultIdDic==None:  #没找到就返回空
+            return "没有找到"
+        if len(resultIdDic)==1:
+            print(len(resultIdDic))
+            return resultIdDic[0]['id']   #返回id
+        else :
+            return
+        # if resultIdDic!None and len(resultIdDic)=1:  #多条重复的url
+
+
+
+
 if __name__ == "__main__":  #下面都是用来测试用的。
     chak = DB()
     # chak.getAllTitle()
@@ -761,7 +894,10 @@ if __name__ == "__main__":  #下面都是用来测试用的。
     # chak.insertTengxunTheme("www","2018-232","test","auto")  #todo 爬完再执行去重。
     # __query__
 
-    chak.classifyDB()
+    chak.classifyDB()         #测试分类的。
+    url = "http:////news.qq.com//a//20190317//004665.htm"
+    # print(chak.findCommentByUrl(url))  #没返回值，所以输出为空
+
     print("DB finish!")
 
 
