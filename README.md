@@ -1,0 +1,2 @@
+# News-Browsing-Platform-Based-on-Sentiment-Analysis-
+This project is mainly divided into three modules:            1. Climbing module: Climbing news data and commentary data of Tencent and Sina platforms regularly every day.            2. Emotional Analysis Module: At present, the Sentiment algorithm based on pattern matching will be updated to the algorithm based on Deep learning.            3. Web Framework: This project is built by Django, which is maintainable. 
