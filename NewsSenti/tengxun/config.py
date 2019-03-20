@@ -10,8 +10,8 @@
 mysqlInfo = {
     "host": '127.0.0.1',
     "user": 'root',
-    "passwd": 'aptx4869',
-    "db": 'newssenti',   #改同一个数据库了。
+    "passwd": '123456',
+    "db": 'newssenti2',   #改同一个数据库了。
     "port": 3306,
     "charset": 'utf8'  #这个是数据库的配置文件
 }
