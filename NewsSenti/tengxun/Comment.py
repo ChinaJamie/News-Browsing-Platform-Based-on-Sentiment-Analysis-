@@ -50,28 +50,35 @@ class CommentCrawl(object):
 
         # print(  cmt_id.strip()  )
         #这个用来拼接用到。
-        allUrl = commentRawUrl + str(cmt_id) + "/comment/#"
-        print(allUrl)
-        responseDic = cooker.makeBSjson(allUrl)
-        commentList = responseDic['data']['commentid']
-        print(commentList)
-        from pprint import pprint
-        for comment in commentList:
-            pprint(type(comment['id']))
-            print(comment['id'])
-            comment['content'] = emoji.demojize(comment['content'])      #过滤emoji
-            comment['userinfo']['nick'] = emoji.demojize(comment['userinfo']['nick'])
-            comment['time']=self.changTimeToDate(comment['time'])             #时间戳改成日期字符串
-            print("新闻id "+ str(id))
-            print("新闻的url是 "+ url)
+        try:
+            allUrl = commentRawUrl + str(cmt_id) + "/comment/#"
+            print(allUrl)
+            responseDic = cooker.makeBSjson(allUrl)
+            # if
+            # print()
+            print(responseDic)
+            commentList = responseDic['data']['commentid']
+            print(commentList)
+            from pprint import pprint
+            for comment in commentList:
+                pprint(type(comment['id']))
+                print(comment['id'])
+                comment['content'] = emoji.demojize(comment['content'])      #过滤emoji
+                comment['userinfo']['nick'] = emoji.demojize(comment['userinfo']['nick'])
+                comment['time']=self.changTimeToDate(comment['time'])             #时间戳改成日期字符串
+                print("新闻id "+ str(id))
+                print("新闻的url是 "+ url)
 
-            self.dbHelper.classifyDBComment(url=url,id=id,comment=comment)   #插入数据库。
+
+                self.dbHelper.classifyDBComment(url=url,id=id,comment=comment)   #插入数据库。
 
 
-            print("")
-            #-----------------------这儿可以合成sql语句的话就可以执行插入的操作了。-----------------------
-            # 通过url来合成插入的sql语句，DBcontrol的方法中来做这些东西
-
+                print("")
+                #-----------------------这儿可以合成sql语句的话就可以执行插入的操作了。-----------------------
+                # 通过url来合成插入的sql语句，DBcontrol的方法中来做这些东西
+        except Exception as e:
+            print("提取此条评论出错，正在跳过")
+            print(e)
 
 
     def getCommentMain(self):
