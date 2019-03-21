@@ -894,7 +894,8 @@ if __name__ == "__main__":  #下面都是用来测试用的。
     # chak.insertTengxunTheme("www","2018-232","test","auto")  #todo 爬完再执行去重。
     # __query__
 
-    chak.classifyDB()         #测试分类的。
+    # chak.classifyDB()         #测试新闻分类的。
+    # chak.classifyDBComment()   #测试评论的
     url = "http:////news.qq.com//a//20190317//004665.htm"
     # print(chak.findCommentByUrl(url))  #没返回值，所以输出为空
 
