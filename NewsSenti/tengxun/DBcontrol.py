@@ -2,9 +2,9 @@
 
 
 #2018/9/8 修改成使用连接池的方式来进行数据库的链接
+import datetime
 import random
 import traceback
-from datetime import date, timedelta
 
 import emoji
 import pymysql as pymysql
@@ -900,6 +900,10 @@ if __name__ == "__main__":  #下面都是用来测试用的。
     # print(chak.findCommentByUrl(url))  #没返回值，所以输出为空
 
     print("DB finish!")
+
+    Yesterday = (datetime.datetime.now() - datetime.timedelta(days=2)).strftime('%Y-%m-%d')  # 昨天
+    print(Yesterday)
+
 
 
 

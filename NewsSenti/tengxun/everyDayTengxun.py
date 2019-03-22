@@ -2,8 +2,7 @@
 import time
 from datetime import date, timedelta
 
-import datetime
-
+from tengxun.WordCloud import Gen_WordCloud
 from tengxun.Comment import CommentCrawl
 from tengxun.DBcontrol import DB
 from tengxun.pageContent import pageContent
@@ -44,6 +43,15 @@ class EveryTengxun:
             time.sleep(1)
 
             if (title !="腾讯没找到标题" and title!=None and Hcontent!="" ):  #有内容的时候就更新这条数据
+
+                # todo 这儿加上生成云图保存本地，并且把路径合并成src生成字符串合并到Acontent就可以了。
+                # 生成img标签
+                News_Id = url.replace("$","").replace("/","").replace(":","_").replace(".","_")
+
+                imgTag = "<img src='"+Gen_WordCloud(Newsid=News_Id,text=Acontent)+"' />"
+                print(imgTag)
+                Acontent = imgTag+Acontent
+
                 resultState = dbhelper.updateContent(url,title,Hcontent,Tcontent,Acontent)  #要删除的是更新失败的那个
                 if resultState==False:  #更新成功
                     print("更新失败，正在删除这个url不同，但是标题相同的新闻")

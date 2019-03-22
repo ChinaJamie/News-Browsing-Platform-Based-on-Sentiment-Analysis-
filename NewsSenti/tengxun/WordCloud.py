@@ -31,12 +31,13 @@ def Gen_WordCloud(text,Newsid):
 	
 	image_produce = wordcloud.to_image()
 	name = str(Newsid)+".png" #构造温江名
-	path = "../static/images/WordCloud/"+Yesterday+"/" #保存文件夹
+	path = "../static/images/WordCloud/" #保存文件夹
 	if not os.path.exists(path):
 		os.makedirs(path)
-	save_path ="./static/images/WordCloud/"+Yesterday+"/"+name #保存的完整路径
+	save_path ="../static/images/WordCloud/"+name #保存的完整路径
+	print(save_path)
 	wordcloud.to_file(save_path) #保存词云
-	img_path="/static/images/WordCloud/"+Yesterday+"/"+name #对应的要传给<img>标签的路径
+	img_path="/static/images/WordCloud/"+name #对应的要传给<img>标签的路径
 	#print("save to :",save_path)
 	#image_produce.show()
 	return img_path
