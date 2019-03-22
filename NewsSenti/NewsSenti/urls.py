@@ -35,5 +35,8 @@ urlpatterns = [
     path('sports_list/',views.sports_list),
     path('technology/',views.technology),
 
+    path('news_list',views.news_list),
+    path('news_detail',views.news_detail),
+
     path('login_action/',views.login_action),
 ]+ static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)

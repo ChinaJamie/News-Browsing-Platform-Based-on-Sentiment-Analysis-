@@ -7,7 +7,7 @@ import datetime
 import os
 import time
 
-Yesterday = (datetime.datetime.now()-datetime.timedelta(days=2)).strftime('%Y-%m-%d')#昨天
+Yesterday = (datetime.datetime.now()-datetime.timedelta(days=1)).strftime('%Y-%m-%d')#昨天
 
 def trans_CN(text):
 	#中文要进行分词，不像英文自动有空格
@@ -25,21 +25,42 @@ def Gen_WordCloud(text,Newsid):
 		#mask=mask,
 		font_path = "C:\Windows\Fonts\simhei.ttf", #加载中文字体
 		background_color='white', #背景色
-		max_words=2000,#允许最大词汇
+		#max_words=2000,#允许最大词汇
 		#max_font_size=60 #最大号字体
 	).generate(text)
 	
 	image_produce = wordcloud.to_image()
 	name = str(Newsid)+".png" #构造温江名
-	path = "../static/images/WordCloud/"+Yesterday+"/" #保存文件夹
+	path = "static/images/WordCloud/"+Yesterday+"/" #保存文件夹
 	if not os.path.exists(path):
 		os.makedirs(path)
-	save_path ="./static/images/WordCloud/"+Yesterday+"/"+name #保存的完整路径
+	save_path ="static/images/WordCloud/"+Yesterday+"/"+name #保存的完整路径
 	wordcloud.to_file(save_path) #保存词云
-	img_path="/static/images/WordCloud/"+Yesterday+"/"+name #对应的要传给<img>标签的路径
+	img_path="static/images/WordCloud/"+Yesterday+"/"+name #对应的要传给<img>标签的路径
 	#print("save to :",save_path)
 	#image_produce.show()
 	return img_path
+
+def Generate_WordCloud(text,Newsid):
+	#输入：text文章内容，Newsid文章的id号
+	#输出：image_path对应词云图片的路径
+	text = trans_CN(text)#分词
+	#mask = np.array(image.open('./static/images/cloud.png'))#如果要把词云形状弄成特定图形要用该语句
+	wordcloud = WordCloud(
+		#mask=mask,
+		font_path = "C:\Windows\Fonts\simhei.ttf", #加载中文字体
+		background_color='white', #背景色
+		#max_words=2000,#允许最大词汇
+		#max_font_size=60 #最大号字体
+	).generate(text)
+	
+	image_produce = wordcloud.to_image()
+	
+	name = str(Newsid)+".png" #构造温江名
+	save_path ="../static/images/WordCloud/"+Yesterday+"/"+name #保存的完整路径
+	wordcloud.to_file(save_path) #保存词云
+
+
 
 if __name__=="__main__":
 	Newsid=1

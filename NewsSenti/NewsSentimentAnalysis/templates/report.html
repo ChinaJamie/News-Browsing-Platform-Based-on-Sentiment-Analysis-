@@ -3,28 +3,260 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>生成报告</title>
+	<title>生成表格</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
-	<script type="text/javascript" src={% static "js/jquery-1.8.3.min.js" %}></script>
-	<script src="js/echarts.js"></script>
-	<link rel="stylesheet" type="text/css" href={% static "css/beingtable.css" %}>
+	<script type="text/javascript" src="/static/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.SuperSlide.2.1.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/news.css">
+    <script src="/static/js/echarts.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/beingtable.css">
 </head>
 <body>
-	<div class="content-in">
-		<div class="left-nav">
-			<ul>
-				<li class="active"><a href="javascript:" >生成报告</a></li>
-				
-			</ul>
-		</div>
-		<p class="sidehead">生成报告</p>
-		<div class="line-gray"></div>
-		<div class="line"></div>
-	</div>
-	<div class="content">
-		<p>放表格</p>
-		
-	</div>
+<div class="head">
+            <div class="head-box">
+                 <div class="nav">
+                     <ul>
+                        <li>
+                             <a href="/index" >主页</a>
+                                </li>
+                        <li>
+                             <a href="/news_list?theme=entertainment&page=1" >娱乐</a>
+                                </li>
+                        <li>
+                             <a href="/news_list?theme=sports&page=1">运动</a>
+                                </li>
+                        <li>
+                             <a href="/news_list?theme=finance&page=1">财经</a>
+                                </li>
+                        <li>
+                             <a href="/news_list?theme=technology&page=1">科技</a>
+                                </li>
+                        <li>
+                            <a href="/news_list?theme=car&page=1">汽车</a>
+                               </li>
+                        <li>
+                            <a href="/news_list?theme=house&page=1">房产</a>
+                               </li>
+                        <li>
+                            <a href="/report">生成报告</a>
+                               </li>
+                     </ul>
+                  </div>
+                  <input type="text" name="name" class="textarea"  placeholder="请输入搜索内容..."   />  
+                      <img src="/static/images/2.png" class="ripo1" />
+                            </div>
+            </div>
+      </div>
+      <div id="slideBox" class="slideBox">
+            <div class="hd">
+                <ul style="list-style-type: none;"><li></li><li></li></ul>
+            </div>
+            <div class="bd">
+                <ul style="list-style-type: none;">
+                    <li >
+                        <a href="http://www.SuperSlide2.com" target="_blank">
+                            <img src="/static/images/timg2.jpg" />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://www.SuperSlide2.com" target="_blank">
+                            <img src="/static/images/timg4.jpg" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+      </div>
 
+    <div class="content-in">
+        <div class="headline">生成报告<span>当前位置：<a href="/index">首页</a>  >  <b>生成报告</b></span></div>
+        <div class="line"></div>
+    
+    <div id="container">    
+    </div>
+    </div>
+     <div class="bottom"></div>
+	<script type="text/javascript">
+     jQuery(".slideBox").slide({mainCell:".bd ul",autoPlay:true});
+
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+app.title = '水印 - ECharts 下载统计'
+
+var builderJson = {
+  "all": {{ALL|safe}},
+  "charts": {{POS_NUM|safe}},
+  "components": {{NEG_NUM|safe}},
+  "ie": 9743
+};
+
+var downloadJson = {{COMMENT_NUM|safe}};
+
+var themeJson = {{TOTAL|safe}};
+
+ var waterMarkText = '';
+
+var canvas = document.createElement('canvas');
+var ctx = canvas.getContext('2d');
+canvas.width = canvas.height = 100;
+ctx.textAlign = 'center';
+ctx.textBaseline = 'middle';
+ctx.globalAlpha = 0.08;
+ctx.font = '20px Microsoft Yahei';
+ctx.translate(50, 50);
+ctx.rotate(-Math.PI / 4);
+ctx.fillText(waterMarkText, 0, 0);
+
+option = {
+    backgroundColor: {
+        type: 'pattern',
+        image: canvas,
+        repeat: 'repeat'
+    },
+    tooltip: {},
+    title: [{
+        text: '各类型新闻分析',
+        x: '25%',
+        textAlign: 'center'
+    }, {
+        text: '文章分析结果',
+        x: '75%',
+        textAlign: 'center'
+    }, {
+        text: '每周新闻统计数',
+        x: '75%',
+        y: '50%',
+        textAlign: 'center'
+    }],
+    grid: [{
+        top: 30,
+        width: '50%',
+        bottom: '50%',
+        left: 10,
+        containLabel: true
+    }, {
+        top: '55%',
+        width: '50%',
+        bottom: 0,
+        left: 10,
+        containLabel: true
+    }],
+    xAxis: [{
+        type: 'value',
+        max: builderJson.all,
+        splitLine: {
+            show: false
+        }
+    }, {
+        type: 'value',
+        max: builderJson.all,
+        gridIndex: 1,
+        splitLine: {
+            show: false
+        }
+    }],
+    yAxis: [{
+        type: 'category',
+        data: Object.keys(builderJson.charts),
+        axisLabel: {
+            interval: 0,
+            rotate: 30
+        },
+        splitLine: {
+            show: false
+        }
+    }, {
+        gridIndex: 1,
+        type: 'category',
+        data: Object.keys(builderJson.components),
+        axisLabel: {
+            interval: 0,
+            rotate: 30
+        },
+        splitLine: {
+            show: false
+        }
+    }],
+    series: [{
+        type: 'bar',
+        stack: 'chart',
+        z: 3,
+        label: {
+            normal: {
+                position: 'right',
+                show: true
+            }
+        },
+        data: Object.keys(builderJson.charts).map(function (key) {
+            return builderJson.charts[key];
+        })
+    }, {
+        type: 'bar',
+        stack: 'chart',
+        silent: true,
+        itemStyle: {
+            normal: {
+                color: '#eee'
+            }
+        },
+        data: Object.keys(builderJson.charts).map(function (key) {
+            return builderJson.all - builderJson.charts[key];
+        })
+    }, {
+        type: 'bar',
+        stack: 'component',
+        xAxisIndex: 1,
+        yAxisIndex: 1,
+        z: 3,
+        label: {
+            normal: {
+                position: 'right',
+                show: true
+            }
+        },
+        data: Object.keys(builderJson.components).map(function (key) {
+            return builderJson.components[key];
+        })
+    }, {
+        type: 'bar',
+        stack: 'component',
+        silent: true,
+        xAxisIndex: 1,
+        yAxisIndex: 1,
+        itemStyle: {
+            normal: {
+                color: '#eee'
+            }
+        },
+        data: Object.keys(builderJson.components).map(function (key) {
+            return builderJson.all - builderJson.components[key];
+        })
+    }, {
+        type: 'pie',
+        radius: [0, '30%'],
+        center: ['75%', '25%'],
+        data: Object.keys(downloadJson).map(function (key) {
+            return {
+                name: key.replace('.js', ''),
+                value: downloadJson[key]
+            }
+        })
+    }, {
+        type: 'pie',
+        radius: [0, '30%'],
+        center: ['75%', '75%'],
+        data: Object.keys(themeJson).map(function (key) {
+            return {
+                name: key.replace('.js', ''),
+                value: themeJson[key]
+            }
+        })
+    }]
+};
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
 </body>
 </html>

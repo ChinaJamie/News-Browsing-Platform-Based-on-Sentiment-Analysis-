@@ -4,10 +4,10 @@ from datetime import date, timedelta
 
 import datetime
 
-from tengxun.Comment import CommentCrawl
-from tengxun.DBcontrol import DB
-from tengxun.pageContent import pageContent
-from tengxun.pageUrls import DateUrl
+from Comment import CommentCrawl
+from DBcontrol import DB
+from pageContent import pageContent
+from pageUrls import DateUrl
 
 
 class EveryTengxun:

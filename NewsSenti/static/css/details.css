@@ -1,0 +1,154 @@
+html,body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Microsoft YaHei;
+  overflow-y: scroll;
+  overflow: hidden;
+}
+:root {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+img {
+  border-style: none;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+input,
+select {
+  outline: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+a {
+  text-decoration: none;
+  outline: none;
+}
+hr{
+ margin-top: 10px;
+}
+button{
+    border: none;
+    background: #F8F8FF;
+    float: right;
+    width: 40px;
+    margin: -10px;
+}
+.button{
+    width: 40px;
+    transform: rotateY(180deg);
+}
+.content-in{
+    width: 1026px;
+    background:   #F8F8FF;
+    margin: 0 auto;
+    
+  }
+.headline{
+  width: 970px;
+  font-size: 25px;
+  padding-top: 10px;
+  margin-left: 20px;
+  font-size:16px;
+  color: #ccc;
+}
+.headline  b{
+  color: green;
+}
+  .line{
+    width: 1026px;
+    height: 1px;
+    background: #ccc;
+    margin-top: 15px;
+   
+  }
+  .news img {
+    position: relative;
+    left: 20%;
+    top: 20px;
+    width: 60%;
+  }
+  .news-body{
+    margin: 0 auto;
+    width: 900px;
+    text-align: left;
+    margin-top: 50px;"
+  }
+  .detail{
+    height: 25px;
+    background: #93c3c5;
+    margin-top: 20px;
+    padding-left: 35px;
+    color: #fff;
+    line-height: 25px;
+  }
+  .menu{
+    font-size: 25px;text-align: center;margin-top: 25px;
+  }
+  .comment-menu{
+    color: #93c3c5;
+    font-size: 20px;
+    margin: 10px;
+  }
+  .comment-content img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 10px;
+    float:left;
+  }
+  .name{
+   padding-top: 15px;
+   font-size: 17px;
+  }
+  .date{
+    color: #b5acac;
+    font-size: 14px;
+    margin-top: -10px;
+  }
+  .opinion{
+    width: 800px;
+    text-align: left;
+    margin: 0 auto;
+    padding-top: 10px;
+  }
+  .feel{
+   float: right;margin-top: -8px;color: red;
+  }
+  .time{
+    color: gray;
+    text-align: center;
+    margin-left: 100px;
+    margin-top: 5px;
+  }
+
+  .content{
+    width: 1026px;
+    height: 800px;
+    margin: 0 auto;
+
+  }
+  #container{
+    width:1026px;
+    height: 800px;
+    /*border: 1px solid #000;*/
+    margin: 0 auto;
+    margin-top: 50px; 
+  }
+  
+  #news-bottom{
+    width: 900px;
+    height: 350px;
+    margin: 0 auto;
+   margin-top: 20px;   
+  }
+  .content p{
+    text-align: center;
+  }

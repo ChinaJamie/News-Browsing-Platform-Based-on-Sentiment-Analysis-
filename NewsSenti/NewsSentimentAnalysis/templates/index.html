@@ -1,9 +1,9 @@
-{%load static%}
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>首页</title>
+	<title>主页</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
 	<script type="text/javascript" src={% static "js/jquery-1.8.3.min.js"%}></script>
 	<script type="text/javascript" src={% static "js/jquery.SuperSlide.2.1.1.js"%}></script>
@@ -15,28 +15,28 @@
                  <div class="nav">
                      <ul>
                      	<li>
-                             <a href="/index/" >主页</a>
+                             <a href="/index" >主页</a>
                                 </li>
                         <li>
-                             <a href="/entertainment_list?page=1" >娱乐</a>
+                             <a href="/news_list?theme=entertainment&page=1" >娱乐</a>
                                 </li>
                         <li>
-                             <a href="/sports_list?page=1">运动</a>
+                             <a href="/news_list?theme=sports&page=1">运动</a>
                                 </li>
                         <li>
-                             <a href="/finance/">财经</a>
+                             <a href="/news_list?theme=finance&page=1">财经</a>
                                 </li>
                         <li>
-                             <a href="/technology/">科技</a>
+                             <a href="/news_list?theme=technology&page=1">科技</a>
                                 </li>
                         <li>
-                            <a href="/car/">汽车</a>
+                            <a href="/news_list?theme=car&page=1">汽车</a>
                                </li>
                         <li>
-                            <a href="/house/">房产</a>
+                            <a href="/news_list?theme=house&page=1">房产</a>
                                </li>
                         <li>
-                            <a href="/report/">生成报告</a>
+                            <a href="/report">生成报告</a>
                                </li>
                      </ul>
                   </div>
@@ -53,7 +53,7 @@
         		<ul style="list-style-type: none;">
           			<li >
           				<a href="http://www.SuperSlide2.com" target="_blank">
-          					<img src={% static "images/timg2.jpg"%} />
+            					<img src={% static "images/timg2.jpg"%} />
           				</a>
           			</li>
           			<li>
@@ -64,105 +64,33 @@
         		</ul>
       		</div>
       </div>
-      <div class="nbox">
-                    <p class="text4"><b>NEWS</b></p>
-                    <p class="text5">最新消息</p>
-                    <p class="text6">中心公告</p>
-                    <p class="text7">中心动态</p>
-                    <div class="bot">
-                        <ul>
-                          {% for i in News_Home_1 %}
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
 
+      <div class="list-content">
+      		<p class="text4" style="margin-left: 30px;"><b>NEWS</b></p>
+            <p class="text5" style="font-size: 30px;float: right;">最新消息</p>
+      		<ul>
+            {% for news in News_Home %}
+      			<li>
+      				<div>
 
-                                
-                                    <a href={{ i.url}}>{{i.Title}}&emsp;{{i.Sentiment}} </a>
-                                
-                                    </li>
+      					<div class="time">
+      						<p class="date">{{ news.Date }}</p>
+      						
+      					</div>
+              
+      					<div class="list1">
+      						<p class="list-head"><a href={{ news.url}}></a>{{ news.Title }}<span >积极分：{{ news.Pos_Score }}&nbsp;消极分：{{ news.Neg_Score }}&nbsp;情感极性：{{ news.Sentiment }}</span></p>
+      						<p class="list-cotent">{{news.Hcontent}}</p>
+      					</div>
+               
+      				</div>
+      			</li>
+            {% endfor %}
 
-                         <!----   <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                   <a href="javascript:">公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容</a> 
-                                    </li>
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                    <a href="javascript:">公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容</a>
-                                    </li>
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                    <a href="javascript:">公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容，公告内容公告内容公告内容</a>
-                                    </li> ---->
-                          {% endfor %}
-                        </ul>
-
-                    </div>
-                    <div class="pat">
-                        <ul>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                        </ul>
-                    </div>
-                     <div class="bot1">
-                        <ul>
-                             {% for i in News_Home_2 %}
-                            <li class="test_demo" style="text-overflow:ellipsis;">
-                                <img src={% static "images/a.png"%}>
-                                    <a href={{ i.url}}>{{i.Title}}&emsp;{{i.Sentiment}}  </a>
-                                    </li>
-                             {% endfor %}
-                          </ul>
-                      </div>
-                    <div class="pat1">
-                        <ul>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                            <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                                 <li>
-                            <a href="javascript:">
-                                {{dic.Date}}</a>
-                                 </li>
-                        </ul>
-                        <!--
-                        <a href="javascript:"class="wor7" >更多》</a>
-                        <a href="javascript:"class="wor8" >更多》</a>
-                      -->
-                        <div class="q"></div> 
-                    </div>    
-            </div>
-             
-<script type="text/javascript">
+      		</ul>
+      </div>
+      <div class="bottom"></div>
+      <script type="text/javascript">
 	jQuery(".slideBox").slide({mainCell:".bd ul",autoPlay:true});
 </script>
 </body>

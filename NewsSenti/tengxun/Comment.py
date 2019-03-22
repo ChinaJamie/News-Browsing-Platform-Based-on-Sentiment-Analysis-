@@ -6,8 +6,8 @@ import time
 import emoji
 import requests
 
-from tengxun.DBcontrol import DB
-from tengxun.makebeautifulSoup import makeBS
+from DBcontrol import DB
+from makebeautifulSoup import makeBS
 
 
 

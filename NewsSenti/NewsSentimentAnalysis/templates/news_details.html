@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新闻详情页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<script type="text/javascript" src={% static "js/jquery-1.8.3.min.js"%}></script>
+    <script type="text/javascript" src={% static "js/jquery.SuperSlide.2.1.1.js"%}></script>
+	<script src={% static "js/echarts.js"%}></script>
+	<link rel="stylesheet" type="text/css" href={% static "css/details.css"%}>
+</head>
+<body>
+	
+
+      <div class="content-in" >
+		<div class="headline"> <a href="/index" >首页</a> > {{theme}} >  
+			<b >新闻详情</b>
+			<button><img src={% static "images/caret-left.png"%}/ class="button"></button>
+		 </div>
+		<div class="detail">   新闻详情</div>
+		<div class="news">
+			<p class="menu">{{Title}}</p>
+				<p class="time">发布时间：{{Date}}</p>
+				<hr>
+				<img src={% static "images/timg1.jpg"/ >
+        <!--<p><img src={{image_path}}/></p>-->
+				<p class="news-body">{{Acontent|safe}}</p>
+		</div>
+       
+    <div id="news-bottom" ></div>
+   	<div class="line"></div> 
+   	<div class="comment" >
+      	<p class="comment-menu">热门评论</p>
+        {% if Com_res%}
+        {% for c in Com_res%}
+      	<div class="comment-content">
+      		<img src={%static "images/timg3.jpg"%}/ >
+      		<p class="name">{{c.NickName}}</p>
+      		<p class="date">{{c.Date}}</p>
+      		<p class="opinion">{{c.Comment}}</p>
+      		<p class="feel">积极得分：{{c.Pos_Score}}&nbsp;消极得分：{{c.Neg_score}}&nbsp;情感极性：{{c.Sentiment}}</p>
+      	</div>
+      	<div class="line"></div> 
+        {%endfor%}
+        {% else %}
+          <div class="comment-content">
+          <img src={%static "images/timg3.jpg"%}/ >
+          <p class="name"></p>
+          <p class="date"></p>
+          <p class="opinion">哎呀，这条新闻没有评论哦！</p>
+          <p class="feel"></p>
+        </div>
+        <div class="line"></div>
+        {% endif %}
+ 
+	</div>
+     <!-- <div class="bottom"></div> -->
+     <script type="text/javascript">
+     var dom = document.getElementById("news-bottom");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+option = {
+    title : {
+        text: '情感得分分析',
+        x:'left'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'center',
+        data: ['直接访问','视频广告']
+    },
+    series : [
+        {
+            name: '文章情感',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:{{Sem_data|safe}},
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+     </script>
+</body>
+</html>
