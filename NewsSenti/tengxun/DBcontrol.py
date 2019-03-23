@@ -17,8 +17,10 @@ from DBUtils.PooledDB import PooledDB
 #提取返回数据的全部变成了返回字典类型
 #这个是连接数据库的东西,这次使用数据库连接池把，使用连接池可以避免反复的重新创建新连接
 #todo 这儿有一个问题关于插入失败的，1.是插入的字符串中文gbk编码的，需要转换，2.就是可能会遇到emoji表情嘛？有可能的
-#todo 还有一个问题就是就是api （腾讯）字典key突然读取为空，没有这个key出现错误，什么鬼，健壮性要搞一下
-#todo 执行sql的时候就需要try catch 不然就崩溃了
+# todo 还有一个问题就是就是api （腾讯）字典key突然读取为空，没有这个key出现错误，什么鬼，健壮性要搞一下
+# todo 执行sql的时候就需要try catch 不然就崩溃了
+# from config import mysqlInfo
+# from senti_dict import Senti_Text
 from config import mysqlInfo
 from senti_dict import Senti_Text
 
@@ -40,22 +42,14 @@ class DB:  #一个对象一个数据库连
                                   user=mysqlInfo['user'], passwd=mysqlInfo['passwd'], db=mysqlInfo['db'],
                                   port=mysqlInfo['port'], charset=mysqlInfo['charset'])
             # print(__pool)
-
         return __pool.connection()
-
         # 释放资源
     def dispose(self): #这儿只能断默认初始化的那个连接
         self.coon.close()
         self.cur.close()
-
-
-
-
-
     # def refreshConnection(self):  #晚点再改成连接池的形式
     #     self.db = pymysql.connect(host="localhost", user="root", charset='utf8', password="Z123321#", db="caiji",port=3306)
     #     #再设置一次
-
     def __query__(self,sql):  #自定义查询,返回字典的类型
         coon =DB.getmysqlconn()  # 每次都默认获得一个新连接来进行相关的操作
         cur = coon.cursor(cursor=pymysql.cursors.DictCursor)  #这儿这个选项是设置返回结果为字典的类型，如果默认的话，那就是列表i
@@ -673,7 +667,7 @@ class DB:  #一个对象一个数据库连
 
             # 插入正文得分的sql
             sql2 = ""
-            sql2Tail = "analysis_news(Pos_Score,Neg_score,Sentiment,News_id_id) values (%s,%s,%s,last_insert_id())"  # 这个是sql的
+            sql2Tail = "analysis_news(Pos_Score,Neg_score,Sentiment,News_id_id,Date) values (%s,%s,%s,last_insert_id(),%s)"  # 这个是sql的
 
             # 这句就是更新tengxun表中的数据,用id
             updateSql = "update tengxun SET hadmix='True' where id='%s' "
@@ -729,14 +723,14 @@ class DB:  #一个对象一个数据库连
             coon = DB.getmysqlconn()                    # 每次都默认获得一个新连接来进行相关的操作
             cur = coon.cursor(cursor=pymysql.cursors.DictCursor)
 
-            try:                       #三个一起操作，很多麻烦事情的。
+            try:                       #三个一起操作，很多麻烦事情的。可以，这样操作也是可以的。
                 cur.execute(sql,(rowDic['url'],rowDic['title'],True,rowDic['Hcontent'],'未提取',rowDic['Tcontent'],rowDic['Acontent'],rowDic['newdate'],rowDic['fromWhere']))  #插入指定的表（分类）
 
                 print("插入成功才用得上这个的把。")#无法提取到这个的。在写一次查询把。
                 # print(cur.lastrowid())      #上一个插入的id是，还真是有，那就直接返回过来就可以了
                 # print(type(cur.lastrowid()))   #上一个插入的id是，还真是有，那就直接返回过来就可以了
 
-                cur.execute(sql2,(float('%.3f' % pos_score.item()),float('%.3f' %neg_score.item()),SentiResult))  #插入评分   todo获得评分
+                cur.execute(sql2,(float('%.3f' % pos_score.item()),float('%.3f' %neg_score.item()),SentiResult,rowDic['newdate']))  #插入评分   todo获得评分
                 cur.execute(updateSql,(rowDic['id']))  # 更新tengxun hadmix,这个是可以工作的啊
                 # 提交
                 coon.commit()
@@ -766,7 +760,7 @@ class DB:  #一个对象一个数据库连
 
         # 插入评论得分的sql
         sql2 = ""
-        sql2Tail = "analysis_comment(Pos_Score,Neg_score,Sentiment,Comment_id_id) values (%s,%s,%s,last_insert_id())"  # 这个我也知道
+        sql2Tail = "analysis_comment(Pos_Score,Neg_score,Sentiment,Comment_id_id,Date) values (%s,%s,%s,last_insert_id(),%s)"  # 这个我也知道
 
             # 这句就是更新新闻表中的数据,用id  newssentimentanalysis_carcomment
         sqlNews = ""
@@ -844,7 +838,7 @@ class DB:  #一个对象一个数据库连
                 neg_score = neg_score.item()
 
             cur.execute(sql2, (
-            float('%.3f' % pos_score), float('%.3f' % neg_score), SentiResult))  # 插入评分   todo获得评分
+            float('%.3f' % pos_score), float('%.3f' % neg_score), SentiResult,comment['time']))  # 插入评分 ,加上了日期了  todo获得评分
             # print(sqlNews % int(id))
             id = str(id)
 

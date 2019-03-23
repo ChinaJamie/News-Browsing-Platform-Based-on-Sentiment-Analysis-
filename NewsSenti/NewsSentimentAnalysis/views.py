@@ -39,7 +39,7 @@ def login_action(request):
 			return response
 		else:
 			return render(request, 'login.html', {'error': 'username or password error!'})
-
+@login_required
 def index(request):
 	News_Home=[]
 	News_obj = HomeNews.objects.filter(Date =Yesterday)
@@ -66,6 +66,9 @@ def getNewsWordCloudSrc(url):   #输入的是数据库中各个分类后的新�
     News_Id = url.replace("$", "").replace("/", "").replace(":", "_").replace(".", "_")
     return "/static/images/WordCloud/"+News_Id+".png"
 
+
+
+@login_required
 def news_list(request):
 	theme = request.GET.get('theme')
 	theme_trans ={
@@ -164,6 +167,7 @@ def list_page(request,Obj,Ana_Obj,theme,page_num):
 ########################################################################################################################################
 from NewsSentimentAnalysis.WordCloud import Gen_WordCloud
 #这个函数也是从entertainment函数提取出来的，可以为其他类新闻详情页所用
+@login_required
 def news_detail(request): 
 	#新闻详情页
 	theme = request.GET.get('theme')
@@ -224,7 +228,7 @@ def news_detail(request):
 
 
 
-
+@login_required
 def report(request): #统计页面
 	POS_NUM = {
     "娱乐": 0,
@@ -373,6 +377,18 @@ def calc_news(theme,Date):
 	
 	return Pos_news_num,Neg_news_num,Pos_comm_num,Neg_comm_num
 	'''
+	#######################################################################################
+	#更改数据库后使用(评分表新增Date字段)
+	'''
+	for day in Date:
+		Pos_news_num+=len(NewsAna_Obj.objects.filter( Q(Date=day )&Q( Sentiment='POS' )))
+		Neg_news_num+=len(NewsAna_Obj.objects.filter( Q(Date=day )&Q( Sentiment='NEG' )))
+		Pos_comm_num+=len(Comm_Obj.objects.filter(Q(Date=day )&Q( Sentiment='POS' ) ))
+		Neg_comm_num+=len(Comm_Obj.objects.filter( Q(Date=day )&Q( Sentiment='NEG' )))
+	return Pos_news_num,Neg_news_num,Pos_comm_num,Neg_comm_num
+	'''
+
+
 	
 
 		

@@ -52,6 +52,7 @@ class HomeNews(models.Model):
 		unique_together = ('url', 'Title',)
 class HomeAnalysis_News(models.Model):
 	News_id=models.ForeignKey(HomeNews,on_delete=models.CASCADE)
+	Date = models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -70,6 +71,7 @@ class HomeComment(models.Model):
 
 class HomeAnalysis_Comment(models.Model):
 	Comment_id=models.ForeignKey(HomeComment,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -97,6 +99,7 @@ class EntertainmentNews(models.Model):
 		ordering = ['News_id']
 class EntertainmentAnalysis_News(models.Model):
 	News_id=models.ForeignKey(EntertainmentNews,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -115,6 +118,7 @@ class EntertainmentComment(models.Model):
 
 class EntertainmentAnalysis_Comment(models.Model):
 	Comment_id=models.ForeignKey(EntertainmentComment,on_delete=models.CASCADE)
+	Date=models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -141,6 +145,7 @@ class SportsNews(models.Model):
 		unique_together = ('url', 'Title',)
 class SportsAnalysis_News(models.Model):
 	News_id=models.ForeignKey(SportsNews,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -159,6 +164,7 @@ class SportsComment(models.Model):
 
 class SportsAnalysis_Comment(models.Model):
 	Comment_id=models.ForeignKey(SportsComment,on_delete=models.CASCADE)
+	Date=models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -187,6 +193,7 @@ class FinanceNews(models.Model):
 		unique_together = ('url', 'Title',)
 class FinanceAnalysis_News(models.Model):
 	News_id=models.ForeignKey(FinanceNews,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -205,6 +212,7 @@ class FinanceComment(models.Model):
 
 class FinanceAnalysis_Comment(models.Model):
 	Comment_id=models.ForeignKey(FinanceComment,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -232,6 +240,7 @@ class TechnologyNews(models.Model):
 		unique_together = ('url', 'Title',)
 class TechnologyAnalysis_News(models.Model):
 	News_id=models.ForeignKey(TechnologyNews,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -250,6 +259,7 @@ class TechnologyComment(models.Model):
 
 class TechnologyAnalysis_Comment(models.Model):
 	Comment_id=models.ForeignKey(TechnologyComment,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -277,6 +287,7 @@ class CarNews(models.Model):
 		unique_together = ('url', 'Title',)
 class CarAnalysis_News(models.Model):
 	News_id=models.ForeignKey(CarNews,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -295,6 +306,7 @@ class CarComment(models.Model):
 
 class CarAnalysis_Comment(models.Model):
 	Comment_id=models.ForeignKey(CarComment,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -320,6 +332,7 @@ class HouseNews(models.Model):
 		unique_together = ('url', 'Title',)
 class HouseAnalysis_News(models.Model):
 	News_id=models.ForeignKey(HouseNews,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
@@ -338,6 +351,7 @@ class HouseComment(models.Model):
 
 class HouseAnalysis_Comment(models.Model):
 	Comment_id=models.ForeignKey(HouseComment,on_delete=models.CASCADE)
+	Date =models.DateField(default='2019-01-01')
 	Pos_Score = models.FloatField() #积极分数
 	Neg_score = models.FloatField() #消极分数
 	Sentiment = models.CharField(
