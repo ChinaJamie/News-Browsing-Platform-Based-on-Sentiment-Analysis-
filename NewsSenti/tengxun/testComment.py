@@ -5,7 +5,7 @@ import traceback
 from bs4 import BeautifulSoup
 from pprint import pprint
 
-from newsCrawl.tengxun.makebeautifulSoup import makeBS
+from makebeautifulSoup import makeBS
 
 Cooker = makeBS()
 

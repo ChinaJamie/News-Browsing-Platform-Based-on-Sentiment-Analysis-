@@ -16,7 +16,7 @@ class CommentCrawl(object):
         self.dbHelper = DB()
 
     def changTimeToDate(self,dateString):
-        timeStamp = 1514712947
+        timeStamp = dateString
         timeArray = time.localtime(timeStamp)
         print(timeArray)
         otherStyleTime = time.strftime("%Y-%m-%d", timeArray)
@@ -101,5 +101,10 @@ class CommentCrawl(object):
 if __name__ == '__main__':
     commentC  = CommentCrawl()
     # print(commentC.getNewsIdAndUrl())
-    # print(commentC.getCommentJson("http:////sports.qq.com//a//20190315//000008.htm",55))
+    # print(commentC.getCommentJson("http:////sports.qq.com//a//20190315//000008.htm",55))  #测试单个
+
     commentC.getCommentMain()  #测试主题从url中提取，url又可以合成。
+
+
+    # print(commentC.changTimeToDate(1553192258))
+    # 1553192225

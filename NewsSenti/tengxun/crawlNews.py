@@ -4,9 +4,9 @@ import os
 import schedule
 import time
   # todo 这个是汇总的，定时功能因为那儿打开
-from newsCrawl.tengxun.DBcontrol import DB
-from newsCrawl.tengxun.config import startTime
-from newsCrawl.tengxun.everyDayTengxun import EveryTengxun
+from DBcontrol import DB
+from config import startTime
+from everyDayTengxun import EveryTengxun
 
 
 def worker_2(interval):

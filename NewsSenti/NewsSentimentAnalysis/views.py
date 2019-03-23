@@ -22,7 +22,7 @@ from django.db.models import Q
 #nowTime=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')#现在
 #pastTime = (datetime.datetime.now()-datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')#过去一小时时间
 #afterTomorrowTime = (datetime.datetime.now()+datetime.timedelta(days=2)).strftime('%Y-%m-%d %H:%M:%S')#后天
-Yesterday = (datetime.datetime.now()-datetime.timedelta(days=2)).strftime('%Y-%m-%d')#昨天
+Yesterday = (datetime.datetime.now()-datetime.timedelta(days=1)).strftime('%Y-%m-%d')#昨天
 
 ##################################################################################################################
 #登陆操作和主页显示
@@ -48,7 +48,7 @@ def index(request):
 		dic ={}
 		dic['Title']=news.Title
 		dic['News_id']=news.News_id
-		dic['url']=news.url
+		dic['url']="/news_detail?theme=home&id="+str(news.News_id)
 		dic['Date']=news.Date
 		dic['Hcontent']=news.Tcontent[0:50]
 		score = HomeAnalysis_News.objects.get(News_id=news.News_id)
@@ -62,9 +62,14 @@ def index(request):
 			break
 	return render(request,'index.html',locals())
 ########################################################################################################################
+def getNewsWordCloudSrc(url):   #输入的是数据库中各个分类后的新闻的url字段
+    News_Id = url.replace("$", "").replace("/", "").replace(":", "_").replace(".", "_")
+    return "/static/images/WordCloud/"+News_Id+".png"
+
 def news_list(request):
 	theme = request.GET.get('theme')
 	theme_trans ={
+	'home':[HomeNews,HomeAnalysis_News,HomeComment,HomeAnalysis_Comment],
 	'sports':[SportsNews,SportsAnalysis_News,SportsComment,SportsAnalysis_Comment],
 	'entertainment':[EntertainmentNews,EntertainmentAnalysis_News,EntertainmentComment,EntertainmentAnalysis_Comment],
 	'finance':[FinanceNews,FinanceAnalysis_News,FinanceComment,FinanceAnalysis_Comment],
@@ -113,13 +118,13 @@ def list_page(request,Obj,Ana_Obj,theme,page_num):
 	News_page=[] #每页的结果
 	News_total=[]#所有的新闻结果
 
-	Table_obj=Obj.objects.all().order_by('-Date') #按照日期逆序显示-Date是逆序
+	Table_obj=Obj.objects.all().order_by('-Date')[0:100] #按照日期逆序显示-Date是逆序
 	for news in Table_obj:
 		dic ={} #每条新闻一个字典，里面包含这条新闻的属性信息，再用News_total包起来，最后根据分页器给出的start和end索引，来切分每页显示第几条到第几条的新闻标题
 		dic['Title']=news.Title #要显示文章的标题
 		dic['News_id']=news.News_id #拿来拼接详情页URL
 		dic['Tcontent']=news.Tcontent[0:50]
-		# dic['image_path']=Gen_WordCloud(news.Tcontent,news.News_id)
+		dic['image_path']=getNewsWordCloudSrc(news.url)
 		Sem_obj = Ana_Obj.objects.get(News_id =news.News_id)#查询该newsid的新闻情感极性，要显示
 		dic['Pos_Score']=Sem_obj.Pos_Score
 		dic['Neg_Score']=Sem_obj.Neg_score
@@ -159,9 +164,11 @@ def list_page(request,Obj,Ana_Obj,theme,page_num):
 ########################################################################################################################################
 from NewsSentimentAnalysis.WordCloud import Gen_WordCloud
 #这个函数也是从entertainment函数提取出来的，可以为其他类新闻详情页所用
-def news_detail(request):
+def news_detail(request): 
+	#新闻详情页
 	theme = request.GET.get('theme')
 	theme_trans ={
+	'home':[HomeNews,HomeAnalysis_News,HomeComment,HomeAnalysis_Comment],
 	'sports':[SportsNews,SportsAnalysis_News,SportsComment,SportsAnalysis_Comment],
 	'entertainment':[EntertainmentNews,EntertainmentAnalysis_News,EntertainmentComment,EntertainmentAnalysis_Comment],
 	'finance':[FinanceNews,FinanceAnalysis_News,FinanceComment,FinanceAnalysis_Comment],
@@ -174,11 +181,11 @@ def news_detail(request):
 
 	id = request.GET.get('id') #获取新闻id
 	news_obj=News_Obj.objects.get(News_id =id)
+	URL ="/news_list?theme="+theme+"&page=1"
 	Title = news_obj.Title #新闻标题
 	Date = news_obj.Date
 	Acontent = news_obj.Acontent #新闻详情
-	# Tcontent = news_obj.Tcontent
-	# image_path=Gen_WordCloud(Tcontent,news_obj.News_id) #生成词云，并返回该条新闻词云文件路径
+	image_path=getNewsWordCloudSrc(news_obj.url) #词云
 	Sem_obj = Ana_Obj.objects.get(News_id =id)
 	Sem_data=[]
 	Sem_POS={}
@@ -218,31 +225,7 @@ def news_detail(request):
 
 
 
-def detail_page(request,Obj,Ana_Obj):
-	id = request.GET.get('id')
-	News_obj=Obj.objects.get(News_id =id)
-	Title = News_obj.Title #新闻标题
-	Acontent = News_obj.Acontent #新闻详情
-	Tcontent = News_obj.Tcontent
-	image_path=Gen_WordCloud(Tcontent,News_obj.News_id) #生成词云，并返回该条新闻词云文件路径
-	Sem_obj = Ana_Obj.objects.get(News_id =id)
-
-
-
-	return Acontent,Sem_obj,image_path
-
-
-@login_required
-def entertainment(request):
-	Acontent,Sem_obj,image_path = detail_page(request,EntertainmentNews,EntertainmentAnalysis_News)
-	return render(request,'entertainment.html',locals())
-
-@login_required
-def sports(request):
-	Acontent,Sem_obj,image_path = detail_page(request,SportsNews,SportsAnalysis_News)
-	return render(request,'sports.html',locals())
-
-def report(request):
+def report(request): #统计页面
 	POS_NUM = {
     "娱乐": 0,
     "体育": 0,
@@ -324,6 +307,7 @@ def report(request):
 	return render(request,'report.html',locals())
 
 def calc_news(theme,Date):
+	#爬取每一类新闻和评论并返回对应的统计值
 	theme_trans ={
 	'home':[HomeNews,HomeAnalysis_News,HomeComment,HomeAnalysis_Comment],
 	'sports':[SportsNews,SportsAnalysis_News,SportsComment,SportsAnalysis_Comment],
@@ -344,6 +328,7 @@ def calc_news(theme,Date):
 	Neg_comm_num = 0
 	Neu_news_num = 0
 	Neu_comm_num = 0
+	
 	for day in Date:
 		D_news=News_Obj.objects.filter(Date=day) #七天每天的新闻 集合
 		for d in D_news: #每条新闻
@@ -353,27 +338,8 @@ def calc_news(theme,Date):
 				Neg_news_num += 1
 			else:
 				Neu_news_num +=1
-	P_comm = CommAna_Obj.objects.filter(Sentiment='POS')
-	Pos_comm_num = len(P_comm)
-	N_comm = NewsAna_Obj.objects.filter(Sentiment='NEG')
-	Neg_comm_num = len(N_comm)
-################################################################################
-	#每日的评论
 	'''
-	E = News_Obj.objects.filter(Date=Yesterday)#昨天所有的新闻数
-	for e in E: #每一条新闻
-		D_comm=Comm_Obj.objects.filter(News_id = e.News_id)#该条新闻所有评论
-		for c in D_comm:#每条评论进行判断
-			if len(CommAna_Obj.objects.filter(Q(Comment_id=c.Comment_id)&Q(Sentiment='POS')))!=0:
-				Pos_comm_num += 1
-			elif len(CommAna_Obj.objects.filter(Q(Comment_id=c.Comment_id)&Q(Sentiment='NEG')))!=0:
-				Neg_comm_num += 1
-			else:
-				Neu_comm_num +=1
-	'''
-	#################################################################
-		#评论日期正确后可用于计算七日的评论
-	'''
+	for day in Date:
 		D_comm=Comm_Obj.objects.filter(Date=day) #七天每天的评论 集合
 		for c in D_comm:
 			if len(CommAna_Obj.objects.filter(Q(Comment_id=c.Comment_id)&Q(Sentiment='POS')))!=0:
@@ -382,8 +348,34 @@ def calc_news(theme,Date):
 				Neg_comm_num += 1
 			else:
 				Neu_comm_num +=1
-	'''
 	return Pos_news_num,Neg_news_num,Pos_comm_num,Neg_comm_num
+	'''
+	#######################################################################################
+	#评论集合统计
+	
+	P_comm = CommAna_Obj.objects.filter(Sentiment='POS')
+	Pos_comm_num = len(P_comm)
+	N_comm = NewsAna_Obj.objects.filter(Sentiment='NEG')
+	Neg_comm_num = len(N_comm)
+	return Pos_news_num,Neg_news_num,Pos_comm_num,Neg_comm_num
+	
+	######################################################################################
+	#每日的评论统计
+	'''
+	D_comm=Comm_Obj.objects.filter(Date = Yesterday)#该条新闻所有评论
+	for c in D_comm:#每条评论进行判断
+		if len(CommAna_Obj.objects.filter(Q(Comment_id=c.Comment_id)&Q(Sentiment='POS')))!=0:
+			Pos_comm_num += 1
+		elif len(CommAna_Obj.objects.filter(Q(Comment_id=c.Comment_id)&Q(Sentiment='NEG')))!=0:
+			Neg_comm_num += 1
+		else:
+				Neu_comm_num +=1
+	
+	return Pos_news_num,Neg_news_num,Pos_comm_num,Neg_comm_num
+	'''
+	
+
+		
 
 
 
@@ -397,7 +389,7 @@ def calc_news(theme,Date):
 
 
 ###############################################################################################
-#以下的未修改
+#以下的未使用
 
 
 
@@ -433,5 +425,23 @@ def sports_list(request):
 	page,previous,last,News_page,previous_url,last_url = list_page(request,SportsNews,SportsAnalysis_News,theme,10)
 	return render(request,'sports_list.html',locals())
 
+@login_required
+def entertainment(request):
+	Acontent,Sem_obj,image_path = detail_page(request,EntertainmentNews,EntertainmentAnalysis_News)
+	return render(request,'entertainment.html',locals())
+
+@login_required
+def sports(request):
+	Acontent,Sem_obj,image_path = detail_page(request,SportsNews,SportsAnalysis_News)
+	return render(request,'sports.html',locals())
+def detail_page(request,Obj,Ana_Obj):
+	id = request.GET.get('id')
+	News_obj=Obj.objects.get(News_id =id)
+	Title = News_obj.Title #新闻标题
+	Acontent = News_obj.Acontent #新闻详情
+	image_path=getNewsWordCloudSrc(News_obj.url) #词云
+	Sem_obj = Ana_Obj.objects.get(News_id =id)
+
+	return Acontent,Sem_obj,image_path
 
 

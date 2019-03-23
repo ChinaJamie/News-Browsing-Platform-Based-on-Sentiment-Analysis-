@@ -11,7 +11,7 @@
 import time
 
 # from pageContent import pageContent
-from newsCrawl.tengxun.pageContent import pageContent
+from pageContent import pageContent
 
 if __name__ == "__main__":
     datahelper = DB()

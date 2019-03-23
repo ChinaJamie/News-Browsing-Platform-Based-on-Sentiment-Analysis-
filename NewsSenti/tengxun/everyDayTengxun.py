@@ -2,12 +2,17 @@
 import time
 from datetime import date, timedelta
 
-import datetime
-
+# from WordCloud import Gen_WordCloud
+# from Comment import CommentCrawl
+# from DBcontrol import DB
+# from pageContent import pageContent
+# from pageUrls import DateUrl
 from Comment import CommentCrawl
 from DBcontrol import DB
+from WordCloud import Gen_WordCloud
 from pageContent import pageContent
 from pageUrls import DateUrl
+
 
 
 class EveryTengxun:
@@ -44,6 +49,23 @@ class EveryTengxun:
             time.sleep(1)
 
             if (title !="腾讯没找到标题" and title!=None and Hcontent!="" ):  #有内容的时候就更新这条数据
+
+                # todo 这儿加上生成云图保存本地，并且把路径合并成src生成字符串合并到Acontent就可以了。
+                # 生成img标签
+                News_Id = url.replace("$","").replace("/","").replace(":","_").replace(".","_")
+
+                imgTag = "<img src="+Gen_WordCloud(Newsid=News_Id,text=Acontent)+" />"  #不能使用单引号，否则会让sql语句中断开的
+                print(imgTag)
+                Acontent = imgTag+Acontent
+                print("更新的结果有")
+                print(title)
+                print(Tcontent)
+                print(url)
+                print(Acontent)
+                print("显示完毕")
+
+
+
                 resultState = dbhelper.updateContent(url,title,Hcontent,Tcontent,Acontent)  #要删除的是更新失败的那个
                 if resultState==False:  #更新成功
                     print("更新失败，正在删除这个url不同，但是标题相同的新闻")
@@ -59,17 +81,14 @@ class EveryTengxun:
         dbhelper.classifyDB()  # 执行完了后就进行分类到django的数据库
 
         comment = CommentCrawl()
+        comment = CommentCrawl()
         comment.getCommentMain() #执行了爬取评论并且分类到django数据库
         print("共删除了  "+ str(delCount))
         print("原来有  "+str(len(todayNewUrl))+" 条")
         print("今天爬取完毕，蟹蟹使用")
 
 if __name__=="__main__":
-
-
     everydayTengxun = EveryTengxun()
     everydayTengxun.getEveryTengxun()
-
-
     print("腾讯昨日爬取完成。")
     # quchong  DB中的去重，就是用这个。

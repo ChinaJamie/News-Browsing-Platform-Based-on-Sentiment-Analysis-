@@ -1,6 +1,6 @@
 #这个是用来分类整理进入django的数据库的。
 # newssentimentanalysis_homenews   这个是示范的名字，分发到不同的表里面就可以了
-from newsCrawl.tengxun.DBcontrol import DB
+from DBcontrol import DB
 
 chak = DB()
 # chak.getAllTitle()

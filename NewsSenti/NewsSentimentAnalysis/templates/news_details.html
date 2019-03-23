@@ -13,7 +13,7 @@
 	
 
       <div class="content-in" >
-		<div class="headline"> <a href="/index" >首页</a> > {{theme}} >  
+		<div class="headline"> <a href="/index" >首页</a> > <a href={{URL}}>{{theme}} </a>>  
 			<b >新闻详情</b>
 			<button><img src={% static "images/caret-left.png"%}/ class="button"></button>
 		 </div>
@@ -23,7 +23,6 @@
 				<p class="time">发布时间：{{Date}}</p>
 				<hr>
 				<img src={% static "images/timg1.jpg"/ >
-        <!--<p><img src={{image_path}}/></p>-->
 				<p class="news-body">{{Acontent|safe}}</p>
 		</div>
        

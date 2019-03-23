@@ -17,8 +17,8 @@ from DBUtils.PooledDB import PooledDB
 #提取返回数据的全部变成了返回字典类型
 #这个是连接数据库的东西,这次使用数据库连接池把，使用连接池可以避免反复的重新创建新连接
 #todo 这儿有一个问题关于插入失败的，1.是插入的字符串中文gbk编码的，需要转换，2.就是可能会遇到emoji表情嘛？有可能的
-# todo 还有一个问题就是就是api （腾讯）字典key突然读取为空，没有这个key出现错误，什么鬼，健壮性要搞一下
-# todo 执行sql的时候就需要try catch 不然就崩溃了
+#todo 还有一个问题就是就是api （腾讯）字典key突然读取为空，没有这个key出现错误，什么鬼，健壮性要搞一下
+#todo 执行sql的时候就需要try catch 不然就崩溃了
 from config import mysqlInfo
 from senti_dict import Senti_Text
 
