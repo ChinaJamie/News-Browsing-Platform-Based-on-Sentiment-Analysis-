@@ -1,5 +1,10 @@
 ## News-Browsing-Platform-Based-on-Sentiment-Analysis-
-This project is mainly divided into three modules:            1. Climbing module: Climbing news data and commentary data of Tencent and Sina platforms regularly every day.            2. Emotional Analysis Module: At present, the Sentiment algorithm based on pattern matching will be updated to the algorithm based on Deep learning.            3. Web Framework: This project is built by Django, which is maintainable. 
+This project is mainly divided into three modules:            
+1. Climbing module: Climbing news data and commentary data of Tencent and Sina platforms regularly every day.  
+
+2. Emotional Analysis Module: At present, the Sentiment algorithm based on pattern matching will be updated to the algorithm based on Deep learning.    
+
+3. Web Framework: This project is built by Django, which is maintainable. 
 
 ## Dependence:
 bs4==0.0.1
@@ -24,3 +29,8 @@ config.py：配置每日更新时间、爬虫保存数据库
 everyDayTengxun.py：爬虫主要爬取模块
 #2、NewsSentimentAnalysis：Web框架
 manage.py：入口文件
+
+
+## Project Todo
+1. After login into the home page,the Menu bar above can show the logined user name .
+
